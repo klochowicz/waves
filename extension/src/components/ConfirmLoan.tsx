@@ -1,14 +1,12 @@
 import { Box, Button, Flex, Heading, Image, Spacer, Text, useInterval } from "@chakra-ui/react";
-import Debug from "debug";
 import moment from "moment";
 import React from "react";
+import { useState } from "react";
 import { useAsync } from "react-async";
-import { getBlockHeight, rejectLoan, signLoan } from "../background-proxy";
+import { rejectLoan, signLoan } from "../background-proxy";
 import { LoanToSign, USDT_TICKER } from "../models";
 import YouSwapItem from "./SwapItem";
 import Usdt from "./tether.svg";
-
-const debug = Debug("confirmloan:error");
 
 interface ConfirmLoanProps {
     onCancel: () => void;
@@ -28,20 +26,13 @@ export default function ConfirmLoan(
 
     let { details: { collateral, principal, principalRepayment, term } } = loanToSign;
 
-    const blockHeightHook = useAsync({
-        promiseFn: getBlockHeight,
-        onReject: (e) => debug("Failed to fetch block height %s", e),
-    });
-    let { data: blockHeight, reload: reloadBlockHeight } = blockHeightHook;
-
+    let [timestamp, setTimestamp] = useState(Math.floor(Date.now() / 1000));
     useInterval(() => {
-        reloadBlockHeight();
+        setTimestamp(Math.floor(Date.now() / 1000));
     }, 6000); // 1 min
 
-    // format the time nicely into something like : `in 13 hours` or `in 1 month`.
-    // block-height and loan-term are in "blocktime" ^= minutes
-    const deadline = blockHeight && term
-        ? moment().add(Math.abs(blockHeight - term), "minutes").fromNow()
+    const deadline = timestamp && term
+        ? moment().add(Math.abs(timestamp - term), "seconds").fromNow()
         : null;
 
     return (<Box>
@@ -84,7 +75,7 @@ export default function ConfirmLoan(
             <Box w="100%">
                 <Flex>
                     <Box h="40px" p="1">
-                        <Text>Loan term: {term} block-height {deadline ? "(due " + deadline + ")" : ""}</Text>
+                        <Text>Loan term: {term} timestamp {deadline ? "(due " + deadline + ")" : ""}</Text>
                     </Box>
                 </Flex>
             </Box>
