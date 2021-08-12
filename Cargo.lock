@@ -131,6 +131,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "baru"
+version = "0.3.0"
+source = "git+https://github.com/comit-network/baru.git?branch=extract-wallet#8118d55624af4a45b9104532207d18d488b79b85"
+dependencies = [
+ "aes-gcm-siv",
+ "anyhow",
+ "async-trait",
+ "bdk",
+ "bip32",
+ "conquer-once",
+ "elements",
+ "elements-miniscript",
+ "futures",
+ "hex",
+ "hkdf",
+ "itertools",
+ "log",
+ "rand 0.6.5",
+ "reqwest",
+ "rust_decimal",
+ "serde 1.0.126",
+ "sha2",
+ "thiserror",
+]
+
+[[package]]
 name = "base64"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -277,7 +303,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
- "baru",
+ "baru 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bitcoin_hashes 0.9.6",
  "diesel",
  "diesel_migrations",
@@ -387,16 +413,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ddfc5b9aa5d4507acaf872de71051dfd0e309860e88966e1051e462a077aac4f"
 dependencies = [
  "bitflags",
-]
-
-[[package]]
-name = "coin_selection"
-version = "0.1.0"
-dependencies = [
- "bdk",
- "elements",
- "estimate_transaction_size",
- "thiserror",
 ]
 
 [[package]]
@@ -607,10 +623,6 @@ checksum = "80df024fbc5ac80f87dfef0d9f5209a252f2a497f7f42944cff24d8253cac065"
 dependencies = [
  "cfg-if 1.0.0",
 ]
-
-[[package]]
-name = "estimate_transaction_size"
-version = "0.1.0"
 
 [[package]]
 name = "fnv"
@@ -2585,13 +2597,12 @@ version = "0.1.0"
 dependencies = [
  "aes-gcm-siv",
  "anyhow",
- "baru",
+ "async-trait",
+ "baru 0.3.0 (git+https://github.com/comit-network/baru.git?branch=extract-wallet)",
  "bip32",
- "coin_selection",
  "conquer-once",
  "console_error_panic_hook",
  "elements",
- "estimate_transaction_size",
  "futures",
  "getrandom 0.2.3",
  "hex",
